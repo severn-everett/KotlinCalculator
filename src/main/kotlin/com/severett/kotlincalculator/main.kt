@@ -156,7 +156,10 @@ fun main() = application {
                     }
                 }
                 Row {
-                    Button(modifier = Modifier.align(Alignment.CenterVertically), onClick = {}) {
+                    Button(
+                        modifier = Modifier.align(Alignment.CenterVertically),
+                        onClick = { calculator.flipPositive() }
+                    ) {
                         Text("±")
                     }
                     Button(

@@ -33,6 +33,22 @@ class Calculator(private var currentDisplay: MutableState<String>) {
         updateCurrentDisplay()
     }
 
+    fun flipPositive() {
+        if (operand == null) {
+            firstArgument.flipPositivity()
+        } else {
+            secondArgument.flipPositivity()
+        }
+        updateCurrentDisplay()
+    }
+
+    fun setExponentOperation(power: Double) {
+        val argumentToUpdate = if (operand == null) firstArgument else secondArgument
+        val newValue = argumentToUpdate.numValue.toDouble().pow(power)
+        argumentToUpdate.reset(if (newValue == floor(newValue)) newValue.toInt().toString() else newValue.toString())
+        updateCurrentDisplay()
+    }
+
     fun setOperation() {
         when (operand) {
             Operand.ADD -> operation = AddOperation(firstArgument.numValue, secondArgument.numValue)
@@ -42,13 +58,6 @@ class Calculator(private var currentDisplay: MutableState<String>) {
             null -> { /* No-Op */
             }
         }
-        updateCurrentDisplay()
-    }
-
-    fun setExponentOperation(power: Double) {
-        val argumentToUpdate = if (operand == null) firstArgument else secondArgument
-        val newValue = argumentToUpdate.numValue.toDouble().pow(power)
-        argumentToUpdate.reset(if (newValue == floor(newValue)) newValue.toInt().toString() else newValue.toString())
         updateCurrentDisplay()
     }
 

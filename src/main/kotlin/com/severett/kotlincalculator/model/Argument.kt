@@ -2,6 +2,7 @@ package com.severett.kotlincalculator.model
 
 class Argument {
     private var doubleState = DoubleState.UNINITIALIZED
+    private var isPositive = true
     var value: String = "0"
         private set
     val numValue: Number
@@ -27,8 +28,18 @@ class Argument {
         }
     }
 
+    fun flipPositivity() {
+        if (isPositive && value[0] != '-') {
+            value = "-$value"
+        } else if (!isPositive && value[0] == '-') {
+            value = value.substring(1)
+        }
+        isPositive = !isPositive
+    }
+
     fun reset(newValue: String? = null) {
         value = newValue ?: "0"
+        isPositive = value[0] != '-'
         doubleState = if (value.contains('.')) DoubleState.POPULATED else DoubleState.UNINITIALIZED
     }
 }
