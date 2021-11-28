@@ -35,10 +35,16 @@ fun main() = application {
                     Button(modifier = Modifier.align(Alignment.CenterVertically), onClick = {}) {
                         Text("%")
                     }
-                    Button(modifier = Modifier.align(Alignment.CenterVertically), onClick = {}) {
+                    Button(
+                        modifier = Modifier.align(Alignment.CenterVertically),
+                        onClick = { calculator.clear() }
+                    ) {
                         Text("CE")
                     }
-                    Button(modifier = Modifier.align(Alignment.CenterVertically), onClick = {}) {
+                    Button(
+                        modifier = Modifier.align(Alignment.CenterVertically),
+                        onClick = { calculator.clear() }
+                    ) {
                         Text("C")
                     }
                     Button(modifier = Modifier.align(Alignment.CenterVertically), onClick = {}) {
@@ -46,13 +52,22 @@ fun main() = application {
                     }
                 }
                 Row {
-                    Button(modifier = Modifier.align(Alignment.CenterVertically), onClick = {}) {
+                    Button(
+                        modifier = Modifier.align(Alignment.CenterVertically),
+                        onClick = { calculator.setExponentOperation(-1.0) }
+                    ) {
                         Text("x⁻¹")
                     }
-                    Button(modifier = Modifier.align(Alignment.CenterVertically), onClick = {}) {
+                    Button(
+                        modifier = Modifier.align(Alignment.CenterVertically),
+                        onClick = { calculator.setExponentOperation(2.0) }
+                    ) {
                         Text("x²")
                     }
-                    Button(modifier = Modifier.align(Alignment.CenterVertically), onClick = {}) {
+                    Button(
+                        modifier = Modifier.align(Alignment.CenterVertically),
+                        onClick = { calculator.setExponentOperation(0.5) }
+                    ) {
                         Text("√")
                     }
                     Button(
@@ -65,19 +80,19 @@ fun main() = application {
                 Row {
                     Button(
                         modifier = Modifier.align(Alignment.CenterVertically),
-                        onClick = { calculator.updateArgument("1") }
+                        onClick = { calculator.updateArgument(1) }
                     ) {
                         Text("1")
                     }
                     Button(
                         modifier = Modifier.align(Alignment.CenterVertically),
-                        onClick = { calculator.updateArgument("2") }
+                        onClick = { calculator.updateArgument(2) }
                     ) {
                         Text("2")
                     }
                     Button(
                         modifier = Modifier.align(Alignment.CenterVertically),
-                        onClick = { calculator.updateArgument("3") }
+                        onClick = { calculator.updateArgument(3) }
                     ) {
                         Text("3")
                     }
@@ -91,19 +106,19 @@ fun main() = application {
                 Row {
                     Button(
                         modifier = Modifier.align(Alignment.CenterVertically),
-                        onClick = { calculator.updateArgument("4") }
+                        onClick = { calculator.updateArgument(4) }
                     ) {
                         Text("4")
                     }
                     Button(
                         modifier = Modifier.align(Alignment.CenterVertically),
-                        onClick = { calculator.updateArgument("5") }
+                        onClick = { calculator.updateArgument(5) }
                     ) {
                         Text("5")
                     }
                     Button(
                         modifier = Modifier.align(Alignment.CenterVertically),
-                        onClick = { calculator.updateArgument("6") }
+                        onClick = { calculator.updateArgument(6) }
                     ) {
                         Text("6")
                     }
@@ -117,19 +132,19 @@ fun main() = application {
                 Row {
                     Button(
                         modifier = Modifier.align(Alignment.CenterVertically),
-                        onClick = { calculator.updateArgument("7") }
+                        onClick = { calculator.updateArgument(7) }
                     ) {
                         Text("7")
                     }
                     Button(
                         modifier = Modifier.align(Alignment.CenterVertically),
-                        onClick = { calculator.updateArgument("8") }
+                        onClick = { calculator.updateArgument(8) }
                     ) {
                         Text("8")
                     }
                     Button(
                         modifier = Modifier.align(Alignment.CenterVertically),
-                        onClick = { calculator.updateArgument("9") }
+                        onClick = { calculator.updateArgument(9) }
                     ) {
                         Text("9")
                     }
@@ -146,13 +161,13 @@ fun main() = application {
                     }
                     Button(
                         modifier = Modifier.align(Alignment.CenterVertically),
-                        onClick = { calculator.updateArgument("0") }
+                        onClick = { calculator.updateArgument(0) }
                     ) {
                         Text("0")
                     }
                     Button(
                         modifier = Modifier.align(Alignment.CenterVertically),
-                        onClick = { calculator.updateArgument(".") }
+                        onClick = { calculator.setDecimal() }
                     ) {
                         Text(".")
                     }

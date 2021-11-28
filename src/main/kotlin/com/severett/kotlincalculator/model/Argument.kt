@@ -26,4 +26,9 @@ class Argument {
             }
         }
     }
+
+    fun reset(newValue: String? = null) {
+        value = newValue ?: "0"
+        doubleState = if (value.contains('.')) DoubleState.POPULATED else DoubleState.UNINITIALIZED
+    }
 }

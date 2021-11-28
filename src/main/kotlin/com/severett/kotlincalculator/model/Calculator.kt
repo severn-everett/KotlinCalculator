@@ -1,23 +1,34 @@
 package com.severett.kotlincalculator.model
 
 import androidx.compose.runtime.MutableState
+import kotlin.math.floor
+import kotlin.math.pow
 
 class Calculator(private var currentDisplay: MutableState<String>) {
     private var operation: Operation? = null
-    private var firstArgument = Argument()
+    private val firstArgument = Argument()
     private var operand: Operand? = null
-    private var secondArgument = Argument()
+    private val secondArgument = Argument()
 
     fun updateOperand(operand: Operand?) {
         this.operand = operand
         updateCurrentDisplay()
     }
 
-    fun updateArgument(addition: String) {
+    fun updateArgument(addition: Int) {
         if (operand == null) {
-            firstArgument.update(addition)
+            firstArgument.update(addition.toString())
         } else {
-            secondArgument.update(addition)
+            secondArgument.update(addition.toString())
+        }
+        updateCurrentDisplay()
+    }
+
+    fun setDecimal() {
+        if (operand == null) {
+            firstArgument.update(".")
+        } else {
+            secondArgument.update(".")
         }
         updateCurrentDisplay()
     }
@@ -31,6 +42,21 @@ class Calculator(private var currentDisplay: MutableState<String>) {
             null -> { /* No-Op */
             }
         }
+        updateCurrentDisplay()
+    }
+
+    fun setExponentOperation(power: Double) {
+        val argumentToUpdate = if (operand == null) firstArgument else secondArgument
+        val newValue = argumentToUpdate.numValue.toDouble().pow(power)
+        argumentToUpdate.reset(if (newValue == floor(newValue)) newValue.toInt().toString() else newValue.toString())
+        updateCurrentDisplay()
+    }
+
+    fun clear() {
+        firstArgument.reset()
+        operand = null
+        secondArgument.reset()
+        operation = null
         updateCurrentDisplay()
     }
 
