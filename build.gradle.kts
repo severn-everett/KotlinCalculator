@@ -34,6 +34,7 @@ tasks {
             jvmTarget = jvmVersion
             apiVersion = kotlinAPIVersion
             languageVersion = kotlinAPIVersion
+            freeCompilerArgs = listOf("-Xjvm-default=all")
         }
 
     }
