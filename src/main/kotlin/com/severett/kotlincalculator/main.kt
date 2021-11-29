@@ -24,7 +24,7 @@ fun main() = application {
         state = rememberWindowState(width = 300.dp, height = 350.dp),
         resizable = false,
     ) {
-        val currentDisplay = remember { mutableStateOf("0") }
+        val currentDisplay = remember { mutableStateOf("") }
         val calculator = remember { Calculator(currentDisplay) }
         MaterialTheme {
             Column {

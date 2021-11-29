@@ -44,21 +44,27 @@ class Calculator(private var currentDisplay: MutableState<String>) {
 
     fun setExponentOperation(power: Double) {
         val argumentToUpdate = if (operand == null) firstArgument else secondArgument
-        val newValue = argumentToUpdate.numValue.toDouble().pow(power)
-        argumentToUpdate.reset(if (newValue == floor(newValue)) newValue.toInt().toString() else newValue.toString())
+        if (argumentToUpdate.isInitialized) {
+            val newValue = argumentToUpdate.numValue.toDouble().pow(power)
+            argumentToUpdate.reset(
+                if (newValue == floor(newValue)) newValue.toInt().toString() else newValue.toString()
+            )
+        }
         updateCurrentDisplay()
     }
 
     fun setOperation() {
-        when (operand) {
-            Operand.ADD -> operation = AddOperation(firstArgument.numValue, secondArgument.numValue)
-            Operand.SUBTRACT -> operation = SubtractOperation(firstArgument.numValue, secondArgument.numValue)
-            Operand.MULTIPLY -> operation = MultiplyOperation(firstArgument.numValue, secondArgument.numValue)
-            Operand.DIVIDE -> operation = DivideOperation(firstArgument.numValue, secondArgument.numValue)
-            null -> { /* No-Op */
+        if (firstArgument.isInitialized && secondArgument.isInitialized) {
+            when (operand) {
+                Operand.ADD -> operation = AddOperation(firstArgument.numValue, secondArgument.numValue)
+                Operand.SUBTRACT -> operation = SubtractOperation(firstArgument.numValue, secondArgument.numValue)
+                Operand.MULTIPLY -> operation = MultiplyOperation(firstArgument.numValue, secondArgument.numValue)
+                Operand.DIVIDE -> operation = DivideOperation(firstArgument.numValue, secondArgument.numValue)
+                null -> { /* No-Op */
+                }
             }
+            updateCurrentDisplay()
         }
-        updateCurrentDisplay()
     }
 
     fun clear() {
@@ -70,7 +76,7 @@ class Calculator(private var currentDisplay: MutableState<String>) {
     }
 
     fun clearEntry() {
-        if (secondArgument.numValue != 0) {
+        if (secondArgument.isInitialized) {
             secondArgument.reset()
         } else if (operand != null) {
             operand = null
@@ -83,7 +89,7 @@ class Calculator(private var currentDisplay: MutableState<String>) {
     fun backspace() {
         if (operand == null) {
             firstArgument.backspace()
-        } else if (secondArgument.numValue != 0) {
+        } else if (secondArgument.isInitialized) {
             secondArgument.backspace()
         } else {
             operand = null
