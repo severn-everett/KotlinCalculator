@@ -37,6 +37,22 @@ class Argument {
         isPositive = !isPositive
     }
 
+    fun backspace() {
+        value = if (value.length > 1) {
+            if (value[value.length - 2] == '.') {
+                doubleState = DoubleState.UNINITIALIZED
+                value.substring(0, value.length - 2)
+            } else if (value[0] == '-') {
+                isPositive = true
+                value.substring(1)
+            } else {
+                value.substring(0, value.length - 1)
+            }
+        } else {
+            "0"
+        }
+    }
+
     fun reset(newValue: String? = null) {
         value = newValue ?: "0"
         isPositive = value[0] != '-'

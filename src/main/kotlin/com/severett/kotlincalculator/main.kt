@@ -37,7 +37,7 @@ fun main() = application {
                     }
                     Button(
                         modifier = Modifier.align(Alignment.CenterVertically),
-                        onClick = { calculator.clear() }
+                        onClick = { calculator.clearEntry() }
                     ) {
                         Text("CE")
                     }
@@ -47,7 +47,10 @@ fun main() = application {
                     ) {
                         Text("C")
                     }
-                    Button(modifier = Modifier.align(Alignment.CenterVertically), onClick = {}) {
+                    Button(
+                        modifier = Modifier.align(Alignment.CenterVertically),
+                        onClick = { calculator.backspace() }
+                    ) {
                         Text("⌫")
                     }
                 }

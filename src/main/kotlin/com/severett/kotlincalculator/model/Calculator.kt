@@ -69,6 +69,28 @@ class Calculator(private var currentDisplay: MutableState<String>) {
         updateCurrentDisplay()
     }
 
+    fun clearEntry() {
+        if (secondArgument.numValue != 0) {
+            secondArgument.reset()
+        } else if (operand != null) {
+            operand = null
+        } else {
+            firstArgument.reset()
+        }
+        updateCurrentDisplay()
+    }
+
+    fun backspace() {
+        if (operand == null) {
+            firstArgument.backspace()
+        } else if (secondArgument.numValue != 0) {
+            secondArgument.backspace()
+        } else {
+            operand = null
+        }
+        updateCurrentDisplay()
+    }
+
     private fun updateCurrentDisplay() {
         currentDisplay.value = operation?.result?.toString()
             ?: operand?.let { "${firstArgument.value} ${it.symbol} ${secondArgument.value}" }
