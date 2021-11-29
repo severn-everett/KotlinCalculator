@@ -1,7 +1,7 @@
 package com.severett.kotlincalculator.model
 
 import androidx.compose.runtime.MutableState
-import kotlin.math.floor
+import com.severett.kotlincalculator.util.checkForInt
 import kotlin.math.pow
 
 class Calculator(private var currentDisplay: MutableState<String>) {
@@ -46,12 +46,19 @@ class Calculator(private var currentDisplay: MutableState<String>) {
 
     fun setPercentage() {
         if (secondArgument.isInitialized) {
-            val percentNum = secondArgument.numValue.toDouble() / 100.0
-            val firstPercentage = (firstArgument.numValue.toDouble() * percentNum).let { result ->
-                if (result == floor(result)) result.toInt() else result
+            operand?.let { operand ->
+                val percentage = when (operand) {
+                    Operand.ADD, Operand.SUBTRACT -> {
+                        val percentNum = secondArgument.numValue.toDouble() / 100.0
+                        (firstArgument.numValue.toDouble() * percentNum).checkForInt()
+                    }
+                    Operand.MULTIPLY, Operand.DIVIDE -> {
+                        secondArgument.numValue.toDouble() / 100.0
+                    }
+                }
+                secondArgument.reset(percentage.toString())
+                updateCurrentDisplay()
             }
-            secondArgument.reset(firstPercentage.toString())
-            updateCurrentDisplay()
         }
     }
 
@@ -59,9 +66,7 @@ class Calculator(private var currentDisplay: MutableState<String>) {
         val argumentToUpdate = if (operand == null) firstArgument else secondArgument
         if (argumentToUpdate.isInitialized) {
             val newValue = argumentToUpdate.numValue.toDouble().pow(power)
-            argumentToUpdate.reset(
-                if (newValue == floor(newValue)) newValue.toInt().toString() else newValue.toString()
-            )
+            argumentToUpdate.reset(newValue.checkForInt().toString())
         }
         updateCurrentDisplay()
     }
