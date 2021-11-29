@@ -5,12 +5,14 @@ import kotlin.math.floor
 import kotlin.math.pow
 
 class Calculator(private var currentDisplay: MutableState<String>) {
-    private var operation: Operation? = null
     private val firstArgument = Argument()
     private var operand: Operand? = null
     private val secondArgument = Argument()
 
     fun updateOperand(operand: Operand?) {
+        if (this.operand != null && secondArgument.isInitialized) {
+            setOperation()
+        }
         this.operand = operand
         updateCurrentDisplay()
     }
@@ -55,15 +57,12 @@ class Calculator(private var currentDisplay: MutableState<String>) {
 
     fun setOperation() {
         if (firstArgument.isInitialized && secondArgument.isInitialized) {
-            when (operand) {
-                Operand.ADD -> operation = AddOperation(firstArgument.numValue, secondArgument.numValue)
-                Operand.SUBTRACT -> operation = SubtractOperation(firstArgument.numValue, secondArgument.numValue)
-                Operand.MULTIPLY -> operation = MultiplyOperation(firstArgument.numValue, secondArgument.numValue)
-                Operand.DIVIDE -> operation = DivideOperation(firstArgument.numValue, secondArgument.numValue)
-                null -> { /* No-Op */
-                }
+            operand?.let { op ->
+                firstArgument.reset(op.operation(firstArgument.numValue, secondArgument.numValue).toString())
+                secondArgument.reset()
+                operand = null
+                updateCurrentDisplay()
             }
-            updateCurrentDisplay()
         }
     }
 
@@ -71,7 +70,6 @@ class Calculator(private var currentDisplay: MutableState<String>) {
         firstArgument.reset()
         operand = null
         secondArgument.reset()
-        operation = null
         updateCurrentDisplay()
     }
 
@@ -98,8 +96,7 @@ class Calculator(private var currentDisplay: MutableState<String>) {
     }
 
     private fun updateCurrentDisplay() {
-        currentDisplay.value = operation?.result?.toString()
-            ?: operand?.let { "${firstArgument.value} ${it.symbol} ${secondArgument.value}" }
+        currentDisplay.value = operand?.let { "${firstArgument.value} ${it.symbol} ${secondArgument.value}" }
                     ?: firstArgument.value
     }
 }
