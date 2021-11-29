@@ -10,8 +10,11 @@ class Calculator(private var currentDisplay: MutableState<String>) {
     private val secondArgument = Argument()
 
     fun updateOperand(operand: Operand?) {
-        if (this.operand != null && secondArgument.isInitialized) {
-            setOperation()
+        this.operand?.let { op ->
+            if (secondArgument.isInitialized) {
+                firstArgument.reset(op.operation(firstArgument.numValue, secondArgument.numValue).toString())
+                secondArgument.reset()
+            }
         }
         this.operand = operand
         updateCurrentDisplay()
@@ -71,13 +74,13 @@ class Calculator(private var currentDisplay: MutableState<String>) {
         updateCurrentDisplay()
     }
 
-    fun setOperation() {
+    fun finalizeOperation() {
         if (firstArgument.isInitialized && secondArgument.isInitialized) {
             operand?.let { op ->
-                firstArgument.reset(op.operation(firstArgument.numValue, secondArgument.numValue).toString())
+                currentDisplay.value = op.operation(firstArgument.numValue, secondArgument.numValue).toString()
+                firstArgument.reset()
                 secondArgument.reset()
                 operand = null
-                updateCurrentDisplay()
             }
         }
     }

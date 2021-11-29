@@ -182,7 +182,7 @@ fun main() = application {
                     }
                     Button(
                         modifier = Modifier.align(Alignment.CenterVertically),
-                        onClick = { calculator.setOperation() }
+                        onClick = { calculator.finalizeOperation() }
                     ) {
                         Text("=")
                     }

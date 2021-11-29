@@ -66,10 +66,10 @@ class Argument {
     private companion object {
         const val EMPTY = ""
     }
-}
 
-private enum class DoubleState {
-    UNINITIALIZED,
-    INITIALIZED,
-    POPULATED
+    private enum class DoubleState {
+        UNINITIALIZED,
+        INITIALIZED,
+        POPULATED
+    }
 }
