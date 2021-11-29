@@ -67,3 +67,9 @@ class Argument {
         const val EMPTY = ""
     }
 }
+
+private enum class DoubleState {
+    UNINITIALIZED,
+    INITIALIZED,
+    POPULATED
+}

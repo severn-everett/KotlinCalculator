@@ -44,6 +44,17 @@ class Calculator(private var currentDisplay: MutableState<String>) {
         updateCurrentDisplay()
     }
 
+    fun setPercentage() {
+        if (secondArgument.isInitialized) {
+            val percentNum = secondArgument.numValue.toDouble() / 100.0
+            val firstPercentage = (firstArgument.numValue.toDouble() * percentNum).let { result ->
+                if (result == floor(result)) result.toInt() else result
+            }
+            secondArgument.reset(firstPercentage.toString())
+            updateCurrentDisplay()
+        }
+    }
+
     fun setExponentOperation(power: Double) {
         val argumentToUpdate = if (operand == null) firstArgument else secondArgument
         if (argumentToUpdate.isInitialized) {
@@ -97,6 +108,6 @@ class Calculator(private var currentDisplay: MutableState<String>) {
 
     private fun updateCurrentDisplay() {
         currentDisplay.value = operand?.let { "${firstArgument.value} ${it.symbol} ${secondArgument.value}" }
-                    ?: firstArgument.value
+            ?: firstArgument.value
     }
 }

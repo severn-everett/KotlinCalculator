@@ -32,7 +32,10 @@ fun main() = application {
                     Text(text = currentDisplay.value)
                 }
                 Row {
-                    Button(modifier = Modifier.align(Alignment.CenterVertically), onClick = {}) {
+                    Button(
+                        modifier = Modifier.align(Alignment.CenterVertically),
+                        onClick = { calculator.setPercentage() }
+                    ) {
                         Text("%")
                     }
                     Button(
