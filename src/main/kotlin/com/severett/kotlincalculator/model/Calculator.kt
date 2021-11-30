@@ -12,9 +12,20 @@ class Calculator(private var currentDisplay: MutableState<String>) {
     fun updateOperand(operand: Operand?) {
         this.operand?.let { op ->
             if (secondArgument.isInitialized) {
-                firstArgument.reset(op.operation(firstArgument.numValue, secondArgument.numValue).toString())
+                try {
+                    firstArgument.reset(op.operation(firstArgument.numValue, secondArgument.numValue).toString())
+                } catch (ae: ArithmeticException) {
+                    firstArgument.reset()
+                    secondArgument.reset()
+                    this.operand = null
+                    currentDisplay.value = ERROR_STR
+                    return
+                }
                 secondArgument.reset()
             }
+        }
+        if (!firstArgument.isInitialized) {
+            firstArgument.update("0")
         }
         this.operand = operand
         updateCurrentDisplay()
@@ -77,7 +88,11 @@ class Calculator(private var currentDisplay: MutableState<String>) {
     fun finalizeOperation() {
         if (firstArgument.isInitialized && secondArgument.isInitialized) {
             operand?.let { op ->
-                currentDisplay.value = op.operation(firstArgument.numValue, secondArgument.numValue).toString()
+                currentDisplay.value = try {
+                    op.operation(firstArgument.numValue, secondArgument.numValue).toString()
+                } catch (ae: ArithmeticException) {
+                    ERROR_STR
+                }
                 firstArgument.reset()
                 secondArgument.reset()
                 operand = null
@@ -117,5 +132,9 @@ class Calculator(private var currentDisplay: MutableState<String>) {
     private fun updateCurrentDisplay() {
         currentDisplay.value = operand?.let { "${firstArgument.value} ${it.symbol} ${secondArgument.value}" }
             ?: firstArgument.value
+    }
+
+    private companion object {
+        private const val ERROR_STR = "ERR"
     }
 }
