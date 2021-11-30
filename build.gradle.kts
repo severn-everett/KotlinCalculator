@@ -34,7 +34,7 @@ tasks {
             jvmTarget = jvmVersion
             apiVersion = kotlinAPIVersion
             languageVersion = kotlinAPIVersion
-            freeCompilerArgs = listOf("-Xjvm-default=all")
+            freeCompilerArgs = listOf("-Xjvm-default=all", "-Xopt-in=kotlin.RequiresOptIn")
         }
 
     }
